@@ -8,6 +8,7 @@
         public decimal Ucret { get; set; }
         public int SalonId { get; set; }
         public Salon Salon { get; set; }
+        public List<Randevu> Randevular { get; set; }
     }
 
 }
