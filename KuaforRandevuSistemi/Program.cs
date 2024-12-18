@@ -31,7 +31,7 @@ using (var scope = app.Services.CreateScope())
         }
     }
 
-    var adminUser = new IdentityUser
+    var adminUser = new IdentityUser 
     {
         UserName = "admin@example.com",
         Email = "admin@example.com"
