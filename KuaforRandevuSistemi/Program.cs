@@ -1,4 +1,3 @@
-using KuaforRandevuSistemi.DAL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,30 +17,32 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    var roles = new[] { "Admin", "User" };
+    context.Database.EnsureCreated();
 
-    foreach (var role in roles)
+    if (!roleManager.RoleExistsAsync("Admin").Result)
     {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
+        var role = new IdentityRole { Name = "Admin" };
+        var result = roleManager.CreateAsync(role).Result;
     }
 
-    var adminUser = new IdentityUser 
+    if (userManager.FindByEmailAsync("admin@example.com").Result == null)
     {
-        UserName = "admin@example.com",
-        Email = "admin@example.com"
-    };
+        var user = new IdentityUser
+        {
+            UserName = "admin@example.com",
+            Email = "admin@example.com"
+        };
 
-    var result = await userManager.CreateAsync(adminUser, "Admin@123");
+        var userResult = userManager.CreateAsync(user, "Admin@123").Result;
 
-    if (result.Succeeded)
-    {
-        await userManager.AddToRoleAsync(adminUser, "Admin");
+        if (userResult.Succeeded)
+        {
+            userManager.AddToRoleAsync(user, "Admin").Wait();
+        }
     }
 }
 
