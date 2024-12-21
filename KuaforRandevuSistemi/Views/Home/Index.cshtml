@@ -1,8 +1,35 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Çetin Kuaför Salonu</h1>
+        <p class="lead">Profesyonel ve modern saç tasarımları için bizi tercih edin. Uzman ekibimiz ile hizmetinizdeyiz.</p>
+        <hr class="my-4">
+        <p>Randevunuzu hemen alın ve yenilenmenin keyfini çıkarın.</p>
+        <a class="btn btn-primary btn-lg" href="@Url.Action("Create", "Randevu")" role="button">Randevu Al</a>
+    </div>
+</div>
+
+<div class="container">
+    <h2>Hizmetlerimiz</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Saç Kesimi</h3>
+            <p>Uzman ekibimiz en son trendler ile size özel saç kesimleri sunar.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>Saç Boyama</h3>
+            <p>Doğal ve kalıcı saç boyama hizmetlerimiz ile istediğiniz görünüme kavuşun.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>Bakım ve Onarım</h3>
+            <p>Saçlarınıza gereken bakımı yaparak sağlıklı ve parlak bir görünüme kavuşmanızı sağlıyoruz.</p>
+        </div>
+    </div>
+    <hr>
+    <h2>Hakkımızda</h2>
+    <p>Çetin Kuaför Salonu olarak yıllardır müşterilerimize en iyi hizmeti sunmanın gururunu yaşıyoruz. Profesyonel ekibimiz ve kaliteli ürünlerimiz ile her zaman yanınızdayız.</p>
+    <a class="btn btn-secondary" href="@Url.Action("About", "Home")">Daha Fazla Bilgi</a>
 </div>
