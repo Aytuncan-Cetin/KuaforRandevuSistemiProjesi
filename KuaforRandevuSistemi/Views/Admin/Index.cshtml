@@ -2,10 +2,26 @@
     ViewData["Title"] = "Admin Paneli";
 }
 
-<div class="container">
-    <h2>Admin Paneli</h2>
-    <ul>
-        <li><a href="@Url.Action("ManageEmployees", "Admin")">Çalışanları Yönet</a></li>
-        <li><a href="@Url.Action("ManageAppointments", "Admin")">Randevuları Yönet</a></li>
-    </ul>
+<h2>Admin Paneli</h2>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Çalışan Ekle</h5>
+                    <p class="card-text">Yeni çalışanlar ekleyin ve detaylarını yönetin.</p>
+                    <a href="@Url.Action("CreateCalisan", "Admin")" class="btn btn-primary">Çalışan Ekle</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Onay Bekleyen Randevular</h5>
+                    <p class="card-text">Müşterilerin onay bekleyen randevularını görüntüleyin ve onaylayın.</p>
+                    <a href="@Url.Action("OnayBekleyenRandevular", "Admin")" class="btn btn-success">Randevuları Görüntüle</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

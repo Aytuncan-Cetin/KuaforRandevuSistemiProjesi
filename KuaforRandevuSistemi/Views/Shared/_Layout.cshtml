@@ -26,12 +26,23 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Login", "Account")">Giriş Yap</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Register", "Account")">Kayıt Ol</a>
-                </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="form-inline">
+                            <button type="submit" class="btn btn-link nav-link" style="cursor:pointer;">Çıkış Yap</button>
+                        </form>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Login", "Account")">Giriş Yap</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Register", "Account")">Kayıt Ol</a>
+                    </li>
+                }
             </ul>
         </div>
     </nav>
@@ -40,7 +51,7 @@
     </div>
     <footer class="footer">
         <div class="container">
-            <p class="text-muted">&copy; 2023 - Çetin Kuaför Salonu</p>
+            <p class="text-muted">&copy; 2024 - Çetin Kuaför Salonu</p>
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -21,7 +21,7 @@ namespace KuaforRandevuSistemi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("KuaforRandevuSistemi.Models.Calisan", b =>
+            modelBuilder.Entity("Calisan", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,71 +30,6 @@ namespace KuaforRandevuSistemi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Ad")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("MusaitlikDurumu")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("SalonId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Soyad")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UzmanlikAlani")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SalonId");
-
-                    b.ToTable("Calisanlar");
-                });
-
-            modelBuilder.Entity("KuaforRandevuSistemi.Models.Islem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Ad")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SalonId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Sure")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Ucret")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SalonId");
-
-                    b.ToTable("Islemler");
-                });
-
-            modelBuilder.Entity("KuaforRandevuSistemi.Models.Musteri", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Ad")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -106,12 +41,16 @@ namespace KuaforRandevuSistemi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UzmanlikAlanlari")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Musteriler");
+                    b.ToTable("Calisanlar");
                 });
 
-            modelBuilder.Entity("KuaforRandevuSistemi.Models.Randevu", b =>
+            modelBuilder.Entity("Islem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -119,55 +58,24 @@ namespace KuaforRandevuSistemi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CalisanId")
+                    b.Property<string>("Ad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CalisanId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IslemId")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Fiyat")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("MusteriId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Onaylandi")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("Tarih")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("Sure")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CalisanId");
 
-                    b.HasIndex("IslemId");
-
-                    b.HasIndex("MusteriId");
-
-                    b.ToTable("Randevular");
-                });
-
-            modelBuilder.Entity("KuaforRandevuSistemi.Models.Salon", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Ad")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Adres")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telefon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Salonlar");
+                    b.ToTable("Islemler");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -368,53 +276,80 @@ namespace KuaforRandevuSistemi.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("KuaforRandevuSistemi.Models.Calisan", b =>
+            modelBuilder.Entity("Musteri", b =>
                 {
-                    b.HasOne("KuaforRandevuSistemi.Models.Salon", "Salon")
-                        .WithMany("Calisanlar")
-                        .HasForeignKey("SalonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Navigation("Salon");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Ad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Soyad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Musteriler");
                 });
 
-            modelBuilder.Entity("KuaforRandevuSistemi.Models.Islem", b =>
+            modelBuilder.Entity("Randevu", b =>
                 {
-                    b.HasOne("KuaforRandevuSistemi.Models.Salon", "Salon")
-                        .WithMany("Islemler")
-                        .HasForeignKey("SalonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Navigation("Salon");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CalisanId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IslemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MusteriId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Onaylandi")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Tarih")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CalisanId");
+
+                    b.HasIndex("IslemId");
+
+                    b.HasIndex("MusteriId");
+
+                    b.ToTable("Randevular");
                 });
 
-            modelBuilder.Entity("KuaforRandevuSistemi.Models.Randevu", b =>
+            modelBuilder.Entity("Islem", b =>
                 {
-                    b.HasOne("KuaforRandevuSistemi.Models.Calisan", "Calisan")
-                        .WithMany("Randevular")
-                        .HasForeignKey("CalisanId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("KuaforRandevuSistemi.Models.Islem", "Islem")
-                        .WithMany("Randevular")
-                        .HasForeignKey("IslemId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("KuaforRandevuSistemi.Models.Musteri", "Musteri")
-                        .WithMany("Randevular")
-                        .HasForeignKey("MusteriId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Calisan");
-
-                    b.Navigation("Islem");
-
-                    b.Navigation("Musteri");
+                    b.HasOne("Calisan", null)
+                        .WithMany("YapabildigiIslemler")
+                        .HasForeignKey("CalisanId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -468,26 +403,59 @@ namespace KuaforRandevuSistemi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("KuaforRandevuSistemi.Models.Calisan", b =>
+            modelBuilder.Entity("Musteri", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Randevu", b =>
+                {
+                    b.HasOne("Calisan", "Calisan")
+                        .WithMany("Randevular")
+                        .HasForeignKey("CalisanId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Islem", "Islem")
+                        .WithMany("Randevular")
+                        .HasForeignKey("IslemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Musteri", "Musteri")
+                        .WithMany("Randevular")
+                        .HasForeignKey("MusteriId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Calisan");
+
+                    b.Navigation("Islem");
+
+                    b.Navigation("Musteri");
+                });
+
+            modelBuilder.Entity("Calisan", b =>
+                {
+                    b.Navigation("Randevular");
+
+                    b.Navigation("YapabildigiIslemler");
+                });
+
+            modelBuilder.Entity("Islem", b =>
                 {
                     b.Navigation("Randevular");
                 });
 
-            modelBuilder.Entity("KuaforRandevuSistemi.Models.Islem", b =>
+            modelBuilder.Entity("Musteri", b =>
                 {
                     b.Navigation("Randevular");
-                });
-
-            modelBuilder.Entity("KuaforRandevuSistemi.Models.Musteri", b =>
-                {
-                    b.Navigation("Randevular");
-                });
-
-            modelBuilder.Entity("KuaforRandevuSistemi.Models.Salon", b =>
-                {
-                    b.Navigation("Calisanlar");
-
-                    b.Navigation("Islemler");
                 });
 #pragma warning restore 612, 618
         }

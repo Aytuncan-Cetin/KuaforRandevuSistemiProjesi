@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using KuaforRandevuSistemi.Models;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 [Authorize(Roles = "Admin")]
@@ -12,38 +14,51 @@ public class AdminController : Controller
         _context = context;
     }
 
+    // Admin panel ana sayfası
     public IActionResult Index()
     {
         return View();
     }
 
-    public IActionResult ManageSalons()
+    // Çalışan ekleme sayfası
+    public IActionResult CreateCalisan()
     {
-        var salons = _context.Salonlar.ToList();
-        return View(salons);
-    }
-
-    public IActionResult ManageEmployees()
-    {
-        var employees = _context.Calisanlar.ToList();
-        return View(employees);
-    }
-
-    public IActionResult ManageAppointments()
-    {
-        var appointments = _context.Randevular.Include(r => r.Calisan).Include(r => r.Islem).Include(r => r.Musteri).ToList();
-        return View(appointments);
+        return View();
     }
 
     [HttpPost]
-    public IActionResult ApproveAppointment(int id)
+    public async Task<IActionResult> CreateCalisan(Calisan calisan)
     {
-        var randevu = _context.Randevular.Find(id);
+        if (ModelState.IsValid)
+        {
+            _context.Calisanlar.Add(calisan);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        return View(calisan);
+    }
+
+    // Randevu onaylama sayfası
+    public async Task<IActionResult> OnayBekleyenRandevular()
+    {
+        var randevular = await _context.Randevular
+            .Include(r => r.Musteri)
+            .Include(r => r.Calisan)
+            .Include(r => r.Islem)
+            .Where(r => !r.Onaylandi)
+            .ToListAsync();
+        return View(randevular);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Onayla(int id)
+    {
+        var randevu = await _context.Randevular.FindAsync(id);
         if (randevu != null)
         {
             randevu.Onaylandi = true;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        return RedirectToAction("ManageAppointments");
+        return RedirectToAction(nameof(OnayBekleyenRandevular));
     }
 }

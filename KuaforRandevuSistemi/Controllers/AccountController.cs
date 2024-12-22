@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using KuaforRandevuSistemi.Models;
+using System.Threading.Tasks;
 
 public class AccountController : Controller
 {
@@ -36,10 +36,11 @@ public class AccountController : Controller
                     Ad = model.Ad,
                     Soyad = model.Soyad,
                     Email = model.Email,
-                    Telefon = model.Telefon
+                    Telefon = model.Telefon,
+                    UserId = user.Id
                 };
                 _context.Musteriler.Add(musteri);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Home");
@@ -71,5 +72,13 @@ public class AccountController : Controller
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
         }
         return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Index", "Home");
     }
 }
