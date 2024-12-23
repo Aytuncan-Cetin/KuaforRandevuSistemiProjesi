@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public class AccountController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<IdentityUser> _userManager; 
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly ApplicationDbContext _context;
 
